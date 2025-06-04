@@ -1,3 +1,5 @@
+import sys
+
 from fastapi import FastAPI
 from database import engine, get_db
 import models
@@ -17,6 +19,7 @@ app.include_router(borrows.router)
 app.include_router(history.router)
 
 
-
 if __name__ == "__main__":
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    if (len(sys.argv) < 3):
+        raise Exception("Address and port are not provided")
+    uvicorn.run(app, host=sys.argv[1], port=int(sys.argv[2]))
