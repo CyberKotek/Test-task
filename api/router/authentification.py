@@ -13,7 +13,7 @@ router = APIRouter(
     prefix="/login"
 )
 
-@router.post('/')
+@router.post('/') 
 # def login(request: schemas.OauthForm, db: Session = Depends(database.get_db)):
 #     librarian = db.query(models.Librarians).filter(models.Librarians.email == request.email).first()
 def login(request: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(database.get_db)):
@@ -24,8 +24,5 @@ def login(request: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(
     if (not Hash.verify(librarian.password, request.password)):
         raise HTTPException(status_code=404, detail=f"Incorrect username or password")
 
-    # access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(data={"sub": librarian.email})
-
-
     return {"access_token": access_token, "token_type": "bearer"}
