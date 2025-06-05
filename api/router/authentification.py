@@ -14,7 +14,7 @@ router = APIRouter(
 )
 
 @router.post('/') 
-# def login(request: schemas.OauthForm, db: Session = Depends(database.get_db)):
+# def login(request: schemas.OauthForm, db: Session = Depends(database.get_db)):  #without OAuth2PasswordRequestForm
 #     librarian = db.query(models.Librarians).filter(models.Librarians.email == request.email).first()
 def login(request: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(database.get_db)):
     librarian = db.query(models.Librarians).filter(models.Librarians.email == request.username).first()

@@ -25,7 +25,7 @@ class Borrow(BaseModel):
     reader_id: int
     borrow_date: datetime | None = None
     # class Config():
-    #     orm_mode = True
+    #     from_attributes = True
 
 class ReturnedBorrow(Borrow):
     return_date: datetime
@@ -40,12 +40,12 @@ class ShowLibrarian(BaseModel):
 class ShowReader(Reader):
     id: int
     class Config():
-        orm_mode = True
+        from_attributes = True
 
 class ShowBook(Book):
     id: int
     class Config():
-        orm_mode = True
+        from_attributes = True
 
 class ShowBorrow(BaseModel):
     id: int
@@ -54,7 +54,7 @@ class ShowBorrow(BaseModel):
     borrow_date: datetime
 
     class Config():
-        orm_mode = True
+        from_attributes = True
 
 class ShowBorrowOnlyBook(BaseModel):
     id: int
@@ -75,17 +75,17 @@ class ShowReturnedBorrow(BaseModel):
     borrow_date: datetime
     return_date: datetime
     class Config():
-        orm_mode = True
+        from_attributes = True
 
 class ShowOnlyReader(ShowReader):
     borrows: List[ShowBorrowOnlyBook] = []
     class Config():
-        orm_mode = True
+        from_attributes = True
  
 class ShowOnlyBook(ShowBook):
     borrows: List[ShowBorrowOnlyReader] = []
     class Config():
-        orm_mode = True
+        from_attributes = True
 
 
 
