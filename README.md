@@ -13,7 +13,7 @@ export SECRET_KEY=<SEC_KEY>
 export ALGORITHM=<ALG>
 python3 api/main.py <ip> <port>
 ```
-Заместо \<DB_LINK\> напишите ссылку на подключение к базе данных (рекомендованно: "sqlite:///./database.db").<br />
+Заместо \<DB_LINK\> напишите ссылку на подключение к базе данных (рекомендованно: "postgresql+psycopg2://\<user\>:\<password\>@\<host\>/\<database\>", или "sqlite:///./database.db").<br />
 Заместо \<SEC_KEY\> напишите секретный ключ для JWT токена (можно сгенерировать командой "openssl rand -hex 32").<br />
 Заместо \<ALG\> напишите алгоритм хеширования для JWT токена (пример: "HS256")<br />
 Заместо \<ip\> и \<port\> напишите ip-адрес и порт, на котором хотите запустить.<br />
