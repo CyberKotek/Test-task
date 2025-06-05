@@ -2,7 +2,7 @@
 
 ## Установка
 ```bash
-https://github.com/CyberKotek/Test-task/
+git clone https://github.com/CyberKotek/Test-task/
 cd Test-task
 pip install -r requirements.txt
 ```
