@@ -3,7 +3,6 @@ from datetime import datetime
 from pydantic import BaseModel
 
 
-
 class Librarian(BaseModel):
     email: str
     name: str
@@ -62,14 +61,14 @@ class ShowBorrowOnlyBook(BaseModel):
     book: ShowBook
     reader_id: int
     borrow_date: datetime
-    exists: bool
 
 class ShowBorrowOnlyReader(BaseModel):
     id: int
     book_id: int
     reader: ShowReader
     borrow_date: datetime
-    exists: bool
+
+
 
 class ShowReturnedBorrow(BaseModel):
     id: int
@@ -82,13 +81,10 @@ class ShowReturnedBorrow(BaseModel):
 
 class ShowOnlyReader(ShowReader):
     borrows: List[ShowBorrowOnlyBook] = []
-    class Config():
-        from_attributes = True
+
  
 class ShowOnlyBook(ShowBook):
     borrows: List[ShowBorrowOnlyReader] = []
-    class Config():
-        from_attributes = True
 
 
 
