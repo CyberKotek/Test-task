@@ -25,3 +25,7 @@ if __name__ == "__main__":
     if (len(sys.argv) < 3):
         raise Exception("Address and port are not provided")
     uvicorn.run(app, host=sys.argv[1], port=int(sys.argv[2]))
+
+# export DB_CONNECTION="sqlite:///./database.db"
+# export SECRET_KEY="91164f112606672942e9a66658649af033c501586b348f226d2f56b2e23bb135"
+# export ALGORITHM="HS256"
