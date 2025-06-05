@@ -24,7 +24,7 @@ def find_all(request: schemas.FindBook, db: Session = Depends(database.get_db), 
     querry_dict = {}
     request_dict = request.dict()
     for i in request_dict:
-        if (request_dict[i]):
+        if (request_dict[i] is not None):
             querry_dict[i] = request_dict[i]
 
     books = db.query(models.Books).filter_by(**querry_dict).all()
@@ -50,13 +50,13 @@ def create_book(request: schemas.Book, db: Session = Depends(database.get_db), c
     return new_book
 
 
-@router.delete("/delete", status_code=status.HTTP_204_NO_CONTENT)
+@router.put("/delete", status_code=status.HTTP_204_NO_CONTENT)
 def delete_book(id: int, db: Session = Depends(database.get_db), current_user: schemas.Librarian = Depends(oauth2.get_current_user)):
-    book = db.query(models.Books).filter(models.Books.id == id).first()
-    if (not book):
+    book = db.query(models.Books).filter(models.Books.id == id)
+    if (not book.first()):
         raise HTTPException(status_code=400, detail=f"There is no book with such ID")
         
-    db.delete(book)
+    book.update({"exists" : False})
     db.commit()
 
 

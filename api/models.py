@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, String, Boolean, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from database import Base
 import schemas
@@ -10,6 +10,7 @@ class Readers(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, nullable=False)
     email = Column(String, unique=True, nullable=False)
+    exists = Column(Boolean, default=True, nullable=False)
 
     borrows = relationship("Borrows", back_populates="reader")
     returned_borrows = relationship("ReturnedBorrows", back_populates="reader")
@@ -18,6 +19,10 @@ class Readers(Base):
     def __init__(self, reader: schemas.Reader):
         self.name = reader.name
         self.email = reader.email
+        if (reader.exists is not None):
+            self.exists = reader.exists
+        else:
+            self.exists = True
 
 
 class Librarians(Base):
@@ -43,6 +48,7 @@ class Books(Base):
     published_year = Column(Integer, nullable=True)
     isbn = Column(String, unique=True, nullable=True)
     amount = Column(Integer, default=1)
+    exists = Column(Boolean, default=True, nullable=False)
 
     borrows = relationship("Borrows", back_populates="book")
     returned_borrows = relationship("ReturnedBorrows", back_populates="book")
@@ -53,6 +59,10 @@ class Books(Base):
         self.published_year = book.published_year
         self.isbn = book.isbn
         self.amount = book.amount
+        if (book.exists is not None):
+            self.exists = book.exists
+        else:
+            self.exists = True
 
 
 class Borrows(Base):

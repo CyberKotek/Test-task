@@ -23,15 +23,15 @@ def get_all(db: Session = Depends(database.get_db), current_user: schemas.Librar
 
 @router.post("/create", status_code=status.HTTP_204_NO_CONTENT)
 def create_borrow(request: schemas.Borrow, db: Session = Depends(database.get_db), current_user: schemas.Librarian = Depends(oauth2.get_current_user)):
-    reader = db.query(models.Readers).filter(models.Readers.id == request.reader_id).first()
+    reader = db.query(models.Readers).filter(models.Readers.id == request.reader_id, models.Readers.exists == True).first()
     if (not reader):
-        raise HTTPException(status_code=400, detail=f"No reader with Such ID")
+        raise HTTPException(status_code=400, detail=f"No existing reader with Such ID")
     if (len(reader.borrows) >= READER_MAX_BOOKS):
         raise HTTPException(status_code=400, detail=f"This reader has already borrowed {READER_MAX_BOOKS} books")
     
-    book = db.query(models.Books).filter(models.Books.id == request.book_id).first()
+    book = db.query(models.Books).filter(models.Books.id == request.book_id, models.Books.exists == True).first()
     if (not book):
-        raise HTTPException(status_code=400, detail=f"No book with such ID")
+        raise HTTPException(status_code=400, detail=f"No existing book with such ID")
     if (len(book.borrows) >= book.amount):
         raise HTTPException(status_code=400, detail=f"No such books left")
 

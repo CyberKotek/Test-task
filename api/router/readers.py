@@ -24,7 +24,7 @@ def find_all(request: schemas.FindReader, db: Session = Depends(database.get_db)
     querry_dict = {}
     request_dict = request.dict()
     for i in request_dict:
-        if (request_dict[i]):
+        if (request_dict[i] is not None):
             querry_dict[i] = request_dict[i]
 
     readers = db.query(models.Readers).filter_by(**querry_dict).all()
@@ -45,12 +45,12 @@ async def create_reader (request: schemas.Reader, db: Session = Depends(database
     db.refresh(new_reader)
     return new_reader
 
-@router.delete("/detele", status_code=status.HTTP_204_NO_CONTENT)
+@router.put("/detele", status_code=status.HTTP_204_NO_CONTENT)
 def delete_reader(id: int, db: Session = Depends(database.get_db), current_user : schemas.Librarian = Depends(oauth2.get_current_user)):
-    reader = db.query(models.Readers).filter(models.Readers.id == id).first()
-    if (not reader):
-        raise HTTPException(status_code=400, detail=f"No reader with such ID")
-    db.delete(reader)
+    reader = db.query(models.Readers).filter(models.Readers.id == id, models.Readers.exists == True)
+    if (not reader.first()):
+        raise HTTPException(status_code=400, detail=f"No exising reader with such ID")
+    reader.update({"exists": False})
     db.commit()
     return 0
 

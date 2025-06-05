@@ -15,7 +15,7 @@ router = APIRouter(
 
 
 @router.get('/', response_model=List[schemas.ShowLibrarian])
-async def create_librarian(db: Session = Depends(database.get_db), current_user: schemas.Librarian = Depends(oauth2.get_current_user)):
+async def get_all(db: Session = Depends(database.get_db), current_user: schemas.Librarian = Depends(oauth2.get_current_user)):
     result = db.query(models.Librarians).all()
     return result
 

@@ -12,6 +12,7 @@ class Librarian(BaseModel):
 class Reader(BaseModel):
     name: str
     email: str
+    exists: bool | None = True
 
 class Book(BaseModel):
     name: str
@@ -19,6 +20,7 @@ class Book(BaseModel):
     published_year: int | None = None
     isbn: str | None = None
     amount: int = 1
+    exists: bool | None = True
 
 class Borrow(BaseModel):
     book_id: int
@@ -52,7 +54,6 @@ class ShowBorrow(BaseModel):
     book: ShowBook
     reader: ShowReader
     borrow_date: datetime
-
     class Config():
         from_attributes = True
 
@@ -61,12 +62,14 @@ class ShowBorrowOnlyBook(BaseModel):
     book: ShowBook
     reader_id: int
     borrow_date: datetime
+    exists: bool
 
 class ShowBorrowOnlyReader(BaseModel):
     id: int
     book_id: int
     reader: ShowReader
     borrow_date: datetime
+    exists: bool
 
 class ShowReturnedBorrow(BaseModel):
     id: int
@@ -93,6 +96,7 @@ class FindReader(BaseModel):
     id: int | None = None
     name: str | None = None
     email: str | None = None
+    exists: bool | None = None
 
 class FindBook(BaseModel):
     id: int | None = None
@@ -101,6 +105,7 @@ class FindBook(BaseModel):
     published_year: int | None = None
     isbn: str | None = None
     amount: int | None = None
+    exists: bool | None = None
 
 class FindBorrow(BaseModel):
     id: int | None = None
