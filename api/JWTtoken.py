@@ -8,7 +8,7 @@ from passlib.context import CryptContext
 import schemas
 
 
-SECRET_KEY = os.environ["SECRET_KEY"] # gen: openssl rand -hex 32
+SECRET_KEY = os.environ["SECRET_KEY"]
 ALGORITHM = os.environ["ALGORITHM"]
 
 
